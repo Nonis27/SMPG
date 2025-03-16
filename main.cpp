@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <random>
+#include <iostream>
 
 sf::Vector2f setRandomPosition(float xMin, float xMax, float yMin, float yMax) {
 
@@ -27,7 +28,7 @@ int main() {
 	food.setFillColor(sf::Color::Red);
 	food.setPosition({600.f, 600.f});
 	//Score
-	int score;
+	int score = 0;
 
 	while (window.isOpen()) {
 
@@ -73,4 +74,6 @@ int main() {
 
 	}
 
+	std::cout << "Score: " << score << std::endl;
+	return 0;
 }
