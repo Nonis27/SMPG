@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <iostream>
+#include <cmath>
 
 sf::Vector2f setRandomPosition(float xMin, float xMax, float yMin, float yMax) {
 
@@ -22,13 +23,20 @@ int main() {
 	sf::CircleShape player(40.f);
 	player.setFillColor(sf::Color::Blue);
 	player.setPosition({ 600.f, 200.f });
-	const float speed = 8.f;
+	const float playerSpeed = 400.f;
 	//Points
 	sf::CircleShape food(20.f);
 	food.setFillColor(sf::Color::Red);
-	food.setPosition({600.f, 600.f});
+	food.setPosition({600.f, 200.f});
+	//Enemy
+	sf::CircleShape enemy(60.f);
+	enemy.setFillColor(sf::Color::Green);
+	enemy.setPosition({ 600.f, 600.f });
+	const float enemySpeed = 150.f;
 	//Score
-	int score = 0;
+	int score = -1;
+
+	sf::Clock clock;
 
 	while (window.isOpen()) {
 
@@ -42,20 +50,23 @@ int main() {
 		}
 
 		//Player movement
-		sf::Vector2f movement(0.f, 0.f);
+		sf::Vector2f playerMovement(0.f, 0.f);
+		float deltaTime = clock.restart().asSeconds();
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-			movement.x -= speed;
+			playerMovement.x -= playerSpeed * deltaTime;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-			movement.x += speed;
+			playerMovement.x += playerSpeed * deltaTime;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) {
-			movement.y -= speed;
+			playerMovement.y -= playerSpeed * deltaTime;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) {
-			movement.y += speed;
+			playerMovement.y += playerSpeed * deltaTime;
 		}
+
+		player.move(playerMovement);
 
 		//Food code
 		if (food.getGlobalBounds().findIntersection(player.getGlobalBounds())) {
@@ -65,11 +76,27 @@ int main() {
 			score++;
 		}
 
-		player.move(movement);
+		//Enemy code
+		if (enemy.getGlobalBounds().findIntersection(player.getGlobalBounds())) {
+
+			window.close();
+			std::cout << "You lost!" << std::endl;
+		}
+
+		sf::Vector2f direction = player.getPosition() - enemy.getPosition();
+		float magnitude = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+		if (magnitude != 0) {
+
+			direction /= magnitude;
+		}
+		sf::Vector2f enemyMovement = direction * enemySpeed * deltaTime;
+		enemy.move(enemyMovement);
+
 
 		window.clear();
 		window.draw(player);
 		window.draw(food);
+		window.draw(enemy);
 		window.display();
 
 	}
