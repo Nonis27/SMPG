@@ -1,14 +1,33 @@
 #include <SFML/Graphics.hpp>
+#include <random>
+
+sf::Vector2f setRandomPosition(float xMin, float xMax, float yMin, float yMax) {
+
+	static std::random_device random;
+	static std::mt19937 mt(random());
+	std::uniform_real_distribution<float> positionX(xMin, xMax);
+	std::uniform_real_distribution<float> positionY(yMin, yMax);
+	
+	return sf::Vector2f(positionX(mt), positionY(mt));
+}
+
 
 int main() {
 
-	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "SMPG");
+	//Window
+	sf::RenderWindow window(sf::VideoMode({ 1200, 800 }), "SMPG");
 	window.setFramerateLimit(60);
+	//Player
 	sf::CircleShape player(40.f);
 	player.setFillColor(sf::Color::Blue);
-	player.setPosition({ 400.f, 300.f });
-
-	const float speed = 4.f;
+	player.setPosition({ 600.f, 200.f });
+	const float speed = 8.f;
+	//Points
+	sf::CircleShape food(20.f);
+	food.setFillColor(sf::Color::Red);
+	food.setPosition({600.f, 600.f});
+	//Score
+	int score;
 
 	while (window.isOpen()) {
 
@@ -21,6 +40,7 @@ int main() {
 
 		}
 
+		//Player movement
 		sf::Vector2f movement(0.f, 0.f);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
@@ -36,11 +56,19 @@ int main() {
 			movement.y += speed;
 		}
 
+		//Food code
+		if (food.getGlobalBounds().findIntersection(player.getGlobalBounds())) {
+			  
+			sf::Vector2f newPosition = setRandomPosition(1, 1200, 1, 800);
+			food.setPosition(newPosition);
+			score++;
+		}
 
 		player.move(movement);
 
 		window.clear();
 		window.draw(player);
+		window.draw(food);
 		window.display();
 
 	}
