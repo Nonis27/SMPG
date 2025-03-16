@@ -60,7 +60,7 @@ int main() {
 		//Food code
 		if (food.getGlobalBounds().findIntersection(player.getGlobalBounds())) {
 			  
-			sf::Vector2f newPosition = setRandomPosition(1, 1200, 1, 800);
+			sf::Vector2f newPosition = setRandomPosition(40, 1160, 40, 760);
 			food.setPosition(newPosition);
 			score++;
 		}
