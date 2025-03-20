@@ -97,6 +97,10 @@ int main() {
 
 
 	while (window.isOpen()) {
+
+		//Variable that need to be updated while playing
+		sf::Vector2f playerPosition = player.getPosition();
+		sf::Vector2f enemyPosition = enemy.getPosition();
 		
 		while (std::optional event = window.pollEvent()) {
 
@@ -141,8 +145,6 @@ int main() {
 
 		if (gameState == gameStateClass::mainMenu) {
 
-			sf::Vector2f playerPosition = player.getPosition();
-
 			std::cout << "Main menu state activated" << std::endl;
 			std::cout << "Player position (" << playerPosition.x << ", " << playerPosition.y << ")" << std::endl;
 
@@ -182,10 +184,9 @@ int main() {
 				deltaTime = 0.1f;
 			}
 
-			sf::Vector2f enemyPosition = enemy.getPosition();
-
 			std::cout << "Play state activated" << std::endl;
 			std::cout << "Enemy position (" << enemyPosition.x << ", " << enemyPosition.y << ")" << std::endl;
+			std::cout << "Player position (" << playerPosition.x << ", " << playerPosition.y << ")" << std::endl;
 			std::cout << "Delta = " << deltaTime << std::endl;
 
 			//Player movement
@@ -205,6 +206,25 @@ int main() {
 			}
 
 			player.move(playerMovement);
+
+			//Player borders code
+			if (playerPosition.x > 1160.f) {
+
+				player.setPosition({ -40.f, playerPosition.y });
+			}
+			else if (playerPosition.x < -40.f) {
+
+				player.setPosition({ 1160.f, playerPosition.y });
+			}
+			else if (playerPosition.y > 760.f) {
+
+				player.setPosition({ playerPosition.x, -40.f});
+			}
+			else if (playerPosition.y < -40.f) {
+
+				player.setPosition({ playerPosition.x, 760.f });
+			}
+
 
 			//Food code
 			if (food.getGlobalBounds().findIntersection(player.getGlobalBounds())) {
