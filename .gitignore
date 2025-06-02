@@ -4,10 +4,10 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Ignore release zip file
-SMPG-v1.0.0.zip
+SMPG-v1.0.1.zip
 
 # Ignore release folder
-SMPG-Release/
+SMPG-v1.0.1/
 
 # User-specific files
 *.rsuser
