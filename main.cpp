@@ -33,7 +33,7 @@ bool detectCollision(sf::CircleShape& entity1, sf::CircleShape& entity2) {
 	sf::Vector2f center1(bounds1.getCenter());
 	sf::Vector2f center2(bounds2.getCenter());
 
-	float distance = std::sqrt(std::pow(center1.x - center2.x, 2) + std::pow(center1.y - center2.y, 2));
+	float distance = static_cast<float>(std::sqrt(std::pow(center1.x - center2.x, 2) + std::pow(center1.y - center2.y, 2)));
 
 	float radius1 = entity1.getRadius();
 	float radius2 = entity2.getRadius();
@@ -199,7 +199,7 @@ bool distanceDifference(sf::CircleShape& enemy, sf::CircleShape player, float di
 	sf::Vector2f enemyCenter = enemyBounds.getCenter();
 	sf::Vector2f playerCenter = playerBounds.getCenter();
 
-	float realDistance = std::sqrt(std::pow(playerCenter.x - enemyCenter.x, 2) + std::pow(playerCenter.y - enemyCenter.y, 2));
+	float realDistance = static_cast<float>(std::sqrt(std::pow(playerCenter.x - enemyCenter.x, 2) + std::pow(playerCenter.y - enemyCenter.y, 2)));
 
 	if (realDistance <= distance) {
 
