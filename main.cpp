@@ -157,7 +157,7 @@ sf::Vector2f targetDirectionMovement(sf::CircleShape& entity, sf::Vector2f direc
 	else {
 
 		movementDirection = sf::Vector2f( 0.f, 0.f );
-		std::cout << "MovementDirection is set to (0.f, 0.f)" << std::endl;
+		// std::cout << "MovementDirection is set to (0.f, 0.f)" << std::endl;
 	}
 
 	sf::Vector2f movement = movementDirection * entitySpeed * deltaTime;
@@ -165,11 +165,7 @@ sf::Vector2f targetDirectionMovement(sf::CircleShape& entity, sf::Vector2f direc
 	return movement;
 }
 
-sf::Vector2f bulletTargetDirectionMovement(sf::CircleShape& bullet, sf::Vector2f target,
-	float deltaTime,
-	float speedMultiplier,
-	float minSpeed,
-	float maxSpeed) {
+sf::Vector2f bulletTargetDirectionMovement(sf::CircleShape& bullet, sf::Vector2f target, float deltaTime, float speedMultiplier, float minSpeed, float maxSpeed) {
 
 	sf::Vector2f bulletPosition = bullet.getPosition();
 
@@ -185,12 +181,12 @@ sf::Vector2f bulletTargetDirectionMovement(sf::CircleShape& bullet, sf::Vector2f
 
 	sf::Vector2f movement = movementDirection * computedSpeed * deltaTime;
 
-	std::cout << "DeltaTime: " << deltaTime << std::endl;
+	/* std::cout << "DeltaTime: " << deltaTime << std::endl;
 	std::cout << "MovementDirection: (" << movementDirection.x << ", " << movementDirection.y << ")" << std::endl;
 	std::cout << "Magnitude: " << magnitude << std::endl;
 	std::cout << "RawSpeed: " << rawSpeed << std::endl;
 	std::cout << "ComputedSpeed: " << computedSpeed << std::endl;
-	std::cout << "Movement: (" << movement.x << ", " << movement.y << ")" << std::endl;
+	std::cout << "Movement: (" << movement.x << ", " << movement.y << ")" << std::endl; */
 
 	return movement;
 }
@@ -221,40 +217,40 @@ int main() {
 	sf::Font font("arial.ttf");
 	const float tolerance = 10.f;
 	
-	//Window
+	// Window
 	sf::RenderWindow window(sf::VideoMode({ 1200, 800 }), "SMPG");
 	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
 
-	//Player
+	// Player
 	sf::CircleShape player(40.f);
 	player.setFillColor(sf::Color::Blue);
 	player.setPosition({ 600.f, 700.f });
 	const float playerSpeed = 400.f;
 
-	//Points
+	// Points
 	sf::CircleShape food(20.f);
 	food.setFillColor(sf::Color::Red);
 	food.setPosition({ 600.f, 700.f });
 
-	//Enemy
+	// Enemy
 	sf::CircleShape enemy(60.f);
 	enemy.setFillColor(sf::Color::Green);
 	enemy.setPosition({ 600.f, 100.f });
 
-	//Smart Enemy
+	// Smart Enemy
 	sf::CircleShape smartEnemy(70.f);
 	smartEnemy.setFillColor(sf::Color::Cyan);
 	smartEnemy.setPosition({ 600.f, 200.f });
 	sf::Vector2f currentDirection({ 600.f, 200.f });
 	
-	//Bullet
+	// Bullet
 	sf::CircleShape bullet(10.f);
 	bullet.setFillColor(sf::Color::Yellow);
 	bool bulletIsActive = false;
 	sf::Vector2f bulletTargetPosition;
 
-	//Score
+	// Score
 	int score = -1;
 	sf::Text scoreText(font);
 	scoreText.setCharacterSize(40);
@@ -266,7 +262,7 @@ int main() {
 	highScoreText.setFillColor(sf::Color::White);
 	highScoreText.setPosition({ 460.f, 100.f });
 
-	//Main menu variables
+	// Main menu variables
 	sf::Text playText(font);
 	playText.setCharacterSize(80);
 	playText.setString("Play");
@@ -286,7 +282,7 @@ int main() {
 	const int totalOptionsMainMenu = 3;
 	gameStateClass gameState = gameStateClass::mainMenu;
 
-	//Levels variables
+	// Levels variables
 	sf::Text level1Text(font);
 	level1Text.setCharacterSize(60);
 	level1Text.setString("Level 1");
@@ -323,7 +319,7 @@ int main() {
 
 	int levelsScore = -1;
 	
-	//highScore code for writing
+	// HighScore code for writing
 	std::ifstream inFileHighScore("highScore.txt");
 	if (inFileHighScore.is_open()) {
 
@@ -336,13 +332,13 @@ int main() {
 	}
 	else {
 
-		std::cout << "Failed to open highScore.txt for writing." << std::endl;
+		// std::cout << "Failed to open highScore.txt for writing." << std::endl;
 	}
 
 
 	while (window.isOpen()) {
 
-		//Variable that need to be updated while playing
+		// Variable that need to be updated while playing
 		sf::Vector2f playerPosition = player.getPosition();
 		sf::Vector2f enemyPosition = enemy.getPosition();
 		sf::Vector2f smartEnemyPosition = smartEnemy.getPosition();
@@ -360,7 +356,7 @@ int main() {
 				window.close();
 			}
 
-			//Switching between options in the menu
+			// Switching between options in the menu
 			if (gameState == gameStateClass::mainMenu) {
 
 				if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -442,8 +438,8 @@ int main() {
 
 		if (gameState == gameStateClass::mainMenu) {
 
-			std::cout << "Main menu state activated" << std::endl;
-			std::cout << "Player position (" << playerPosition.x << ", " << playerPosition.y << ")" << std::endl;
+			// std::cout << "Main menu state activated" << std::endl;
+			// std::cout << "Player position (" << playerPosition.x << ", " << playerPosition.y << ")" << std::endl;
 
 			if (selectedOptionMainMenu == 1) {
 
@@ -472,7 +468,7 @@ int main() {
 				exitText.setFillColor(sf::Color::White);
 			}
 
-			//highScore code
+			// HighScore code
 			highScoreText.setString("HighScore: " + std::to_string(highScore));
 
 			window.clear();
@@ -485,21 +481,21 @@ int main() {
 		}
 		else if (gameState == gameStateClass::play) {
 
-			std::cout << "Play state activated" << std::endl;
+			/* std::cout << "Play state activated" << std::endl;
 			std::cout << "Enemy position (" << enemyPosition.x << ", " << enemyPosition.y << ")" << std::endl;
 			std::cout << "Player position (" << playerPosition.x << ", " << playerPosition.y << ")" << std::endl;
-			std::cout << "Delta = " << deltaTime << std::endl;
+			std::cout << "Delta = " << deltaTime << std::endl; */
 
-			//Player movement
+			// Player movement
 			player.move(playerMovement(deltaTime, playerSpeed));
 
-			//Player borders code
+			// Player borders code
 			windowBorders(player, window);
 
-			//Food code
+			// Food code
 			foodCode(food, player, score);
 
-			//Enemy code
+			// Enemy code
 			if (detectCollision(player, enemy)) {
 
 				gameState = gameStateClass::mainMenu;
@@ -511,7 +507,7 @@ int main() {
 
 			enemy.move(enemyMovement(enemy, player, deltaTime, 200.f));
 
-			//Score-highScore code
+			// Score-HighScore code
 			scoreText.setString("Score: " + std::to_string(score));
 
 			if (highScore < score) {
@@ -522,16 +518,16 @@ int main() {
 
 					outFileHighScore << highScore;
 					outFileHighScore.close();
-					std::cout << "HighScore updated to: " << highScore << std::endl;
+					// std::cout << "HighScore updated to: " << highScore << std::endl;
 				}
 				else {
 
-					std::cout << "Failed to open highScore.txt for writing." << std::endl;
+					// std::cout << "Failed to open highScore.txt for writing." << std::endl;
 				}
 			}
 			else {
 
-				std::cout << "Score isn't higher than highScore." << std::endl;
+				// std::cout << "Score isn't higher than highScore." << std::endl;
 			}
 
 			window.clear();
@@ -543,8 +539,9 @@ int main() {
 		}
 		else if (gameState == gameStateClass::levels) {
 
-			std::cout << "Levels state activated." << std::endl;
+			// std::cout << "Levels state activated." << std::endl;
 
+			// Level menu buttons coloring
 			if (selectedOptionLevelsMenu == 1) {
 				level1Text.setFillColor(sf::Color::Red);
 			}
@@ -589,7 +586,7 @@ int main() {
 
 			if (level == levelsClass::exit) {
 
-				std::cout << "Levels exit activated." << std::endl;
+				// std::cout << "Levels exit activated." << std::endl;
 
 				gameState = gameStateClass::mainMenu;
 				level = levelsClass::levelsDefault;
@@ -606,8 +603,8 @@ int main() {
 		}
 		else if (gameState == gameStateClass::exit) {
 
-			std::cout << "Exit state activated" << std::endl;
-			std::cout << "HighScore: " << highScore << std::endl;
+			// std::cout << "Exit state activated" << std::endl;
+			// std::cout << "HighScore: " << highScore << std::endl;
 
 			window.close();
 		}
@@ -616,16 +613,16 @@ int main() {
 
 			gameState = gameStateClass::gameStateDefault;
 
-			//Player movement
+			// Player movement
 			player.move(playerMovement(deltaTime, playerSpeed));
 
-			//Player borders code
+			// Player borders code
 			windowBorders(player, window);
 
-			//Food code
+			// Food code
 			foodCode(food, player, levelsScore);
 
-			//Score code
+			// Score code
 			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(10 - levelsScore));
 
 			if (levelsScore == 10) {
@@ -638,8 +635,8 @@ int main() {
 				enemy.setPosition({ 600.f, 100.f });
 				levelsScore = -1;
 			}
-
-			//Enemy code
+			
+			// Enemy code
 			if (detectCollision(player, enemy)) {
 
 				level = levelsClass::levelsDefault;
@@ -663,16 +660,16 @@ int main() {
 
 			gameState = gameStateClass::gameStateDefault;
 
-			//Player movement
+			// Player movement
 			player.move(playerMovement(deltaTime, playerSpeed));
 
-			//Player borders code
+			// Player borders code
 			windowBorders(player, window);
 
-			//Food code
+			// Food code
 			foodCode(food, player, levelsScore);
 
-			//Score code
+			// Score code
 			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(15 - levelsScore));
 
 			if (levelsScore == 15) {
@@ -686,7 +683,7 @@ int main() {
 				levelsScore = -1;
 			}
 
-			//Enemy code
+			// Enemy code
 			if (detectCollision(player, enemy)) {
 
 				level = levelsClass::levelsDefault;
@@ -710,16 +707,16 @@ int main() {
 
 			gameState = gameStateClass::gameStateDefault;
 
-			//Player movement
+			// Player movement
 			player.move(playerMovement(deltaTime, playerSpeed));
 
-			//Player borders code
+			// Player borders code
 			windowBorders(player, window);
 
-			//Food code
+			// Food code
 			foodCode(food, player, levelsScore);
 
-			//Score code
+			// Score code
 			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(15 - levelsScore));
 
 			if (levelsScore == 15) {
@@ -735,7 +732,7 @@ int main() {
 				levelsScore = -1;
 			}
 
-			//Enemy code
+			// Enemy code
 			if (detectCollision(player, enemy)) {
 
 				level = levelsClass::levelsDefault;
@@ -750,7 +747,7 @@ int main() {
 
 			enemy.move(enemyMovement(enemy, player, deltaTime, 250.f));
 
-			//Smart Enemy code
+			// Smart Enemy code
 			if (std::abs(smartEnemyPosition.x - currentDirection.x) < tolerance && std::abs(smartEnemyPosition.y - currentDirection.y) < tolerance) {
 				updateDirection(currentDirection, smartEnemy, window);
 			}
@@ -781,16 +778,16 @@ int main() {
 
 			gameState = gameStateClass::gameStateDefault;
 
-			//Player movement
+			// Player movement
 			player.move(playerMovement(deltaTime, playerSpeed));
 
-			//Player borders code
+			// Player borders code
 			windowBorders(player, window);
 
-			//Food code
+			// Food code
 			foodCode(food, player, levelsScore);
 
-			//Score code
+			// Score code
 			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(20 - levelsScore));
 
 			if (levelsScore == 20) {
@@ -806,7 +803,7 @@ int main() {
 				levelsScore = -1;
 			}
 
-			//Enemy code
+			// Enemy code
 			if (detectCollision(player, enemy)) {
 
 				level = levelsClass::levelsDefault;
@@ -821,7 +818,7 @@ int main() {
 
 			enemy.move(enemyMovement(enemy, player, deltaTime, 300.f));
 
-			//Smart Enemy code
+			// Smart Enemy code
 			if (std::abs(smartEnemyPosition.x - currentDirection.x) < tolerance && std::abs(smartEnemyPosition.y - currentDirection.y) < tolerance) {
 				updateDirection(currentDirection, smartEnemy, window);
 			}
@@ -852,16 +849,16 @@ int main() {
 
 			gameState = gameStateClass::gameStateDefault;
 
-			//Player movement
+			// Player movement
 			player.move(playerMovement(deltaTime, playerSpeed));
 
-			//Player borders code
+			// Player borders code
 			windowBorders(player, window);
 
-			//Food code
+			// Food code
 			foodCode(food, player, levelsScore);
 
-			//Score code
+			// Score code
 			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(20 - levelsScore));
 
 			if (levelsScore == 20) {
@@ -878,7 +875,7 @@ int main() {
 				levelsScore = -1;
 			}
 
-			//Enemy code
+			// Enemy code
 			if (detectCollision(player, enemy)) {
 
 				level = levelsClass::levelsDefault;
@@ -894,7 +891,7 @@ int main() {
 
 			enemy.move(enemyMovement(enemy, player, deltaTime, 300.f));
 
-			//Smart Enemy code
+			// Smart Enemy code
 			if (std::abs(smartEnemyPosition.x - currentDirection.x) < tolerance && std::abs(smartEnemyPosition.y - currentDirection.y) < tolerance) {
 				updateDirection(currentDirection, smartEnemy, window);
 			}
@@ -914,29 +911,30 @@ int main() {
 				levelsScore = -1;
 			}
 
-			//Bullet code
+			// Bullet code
 			if (distanceDifference(smartEnemy, player, 800.f)) {
 				if (!bulletIsActive) {
 					bulletIsActive = true;
 					bulletTargetPosition = playerPosition;
-					// Set bullet start position only once upon activation!
+
+					// Set the bullet position after target assignement
 					bullet.setPosition(smartEnemyPosition);
-					std::cout << "Bullet has a target position." << std::endl;
+					// std::cout << "Bullet has a target position." << std::endl;
 				}
 
 				if (bulletIsActive) {
 					sf::Vector2f bulletMovement = bulletTargetDirectionMovement(bullet, bulletTargetPosition, deltaTime, 1.f, 400.f, 800.f);
 					bullet.move(bulletMovement);
 					bulletPosition = bullet.getPosition();
-					std::cout << "Bullet moved by (" << bulletMovement.x << ", " << bulletMovement.y << ")" << std::endl;
-					std::cout << "Bullet position: (" << bulletPosition.x << ", " << bulletPosition.y << ")" << std::endl;
+					// std::cout << "Bullet moved by (" << bulletMovement.x << ", " << bulletMovement.y << ")" << std::endl;
+					// std::cout << "Bullet position: (" << bulletPosition.x << ", " << bulletPosition.y << ")" << std::endl;
 				}
 
-				// Deactivation only when bullet reaches target (adjust tolerance as needed)
+				// Deactivate the bullet after it reaches the target
 				if (std::hypot(bulletPosition.x - bulletTargetPosition.x, bulletPosition.y - bulletTargetPosition.y) < tolerance) {
 					bullet.setPosition({ -1000.f, -1000.f });
 					bulletIsActive = false;
-					std::cout << "Bullet deactivated." << std::endl;
+					// std::cout << "Bullet deactivated." << std::endl;
 				}
 			}
 			else {
