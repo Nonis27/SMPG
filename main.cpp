@@ -214,7 +214,7 @@ bool distanceDifference(sf::CircleShape& enemy, sf::CircleShape player, float di
 int main() {
 
 	sf::Clock clock;
-	sf::Font font("arial.ttf");
+	sf::Font font("OpenSans-Regular.ttf");
 	const float tolerance = 10.f;
 	
 	// Window
