@@ -816,7 +816,7 @@ int main() {
 				levelsScore = -1;
 			}
 
-			enemy.move(enemyMovement(enemy, player, deltaTime, 300.f));
+			enemy.move(enemyMovement(enemy, player, deltaTime, 275.f));
 
 			// Smart Enemy code
 			if (std::abs(smartEnemyPosition.x - currentDirection.x) < tolerance && std::abs(smartEnemyPosition.y - currentDirection.y) < tolerance) {
@@ -859,7 +859,7 @@ int main() {
 			foodCode(food, player, levelsScore);
 
 			// Score code
-			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(20 - levelsScore));
+			scoreText.setString("Score: " + std::to_string(levelsScore) + " Remaining: " + std::to_string(25 - levelsScore));
 
 			if (levelsScore == 20) {
 
